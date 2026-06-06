@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matriz de Aderência · Torres Consultoria</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --ink: #1A1814;
+    --ink2: #6B6760;
+    --ink3: #A8A49E;
+    --accent: #1B3D6E;
+    --accent-light: #E8EFF8;
+    --gold: #C8992A;
+    --gold-light: #FBF4E3;
+    --green: #2E6B45;
+    --green-light: #E5F2EB;
+    --amber: #B06010;
+    --amber-light: #FDF0E0;
+    --red-c: #8B2020;
+    --red-light: #FBEAEA;
+    --orange: #A84A10;
+    --orange-light: #FDF0E7;
+    --border: rgba(26,24,20,0.10);
+    --border2: rgba(26,24,20,0.18);
+    --radius: 12px;
+    --radius-sm: 6px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 8px 32px rgba(0,0,0,0.06);
+  }
+
+  html { font-size: 16px; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  /* ---------- header ---------- */
+  header {
+    background: var(--accent);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: var(--gold);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .logo-text { color: #fff; }
+  .logo-text strong { font-weight: 600; font-size: 15px; letter-spacing: 0.01em; display: block; }
+  .logo-text small { font-size: 11px; opacity: 0.6; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  #notaMacro {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: #fff;
+    line-height: 1;
+  }
+
+  #badgeMacro {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ---------- layout ---------- */
+  main {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .page-intro {
+    margin-bottom: 2rem;
+  }
+
+  .page-intro h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+  }
+
+  .page-intro p {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  /* ---------- edital input ---------- */
+  .field-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink2);
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--surface);
+    transition: border-color 0.2s;
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  /* ---------- criterio card ---------- */
+  .criterio {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+    transition: border-color 0.2s;
+  }
+
+  .criterio.has-value {
+    border-color: var(--accent);
+    border-left: 3px solid var(--accent);
+  }
+
+  .criterio-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+
+  .criterio-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .peso-badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background: var(--accent-light);
+    color: var(--accent);
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .criterio-question {
+    font-size: 13px;
+    color: var(--ink2);
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+
+  .opcoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .opcao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink2);
+    background: var(--surface2);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-weight: 400;
+  }
+
+  .opcao:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-light);
+  }
+
+  .opcao.selected {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .score-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    font-size: 10px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .opcao:not(.selected) .score-dot {
+    background: rgba(26,24,20,0.08);
+    color: var(--ink2);
+  }
+
+  /* ---------- resultado ---------- */
+  #resultadoWrap {
+    margin-top: 1.75rem;
+  }
+
+  .resultado-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .resultado-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .nota-grande {
+    font-family: 'DM Serif Display', serif;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .nota-grande span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: var(--ink3);
+    font-weight: 300;
+  }
+
+  .class-badge {
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 18px;
+    border-radius: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  .class-alta  { background: var(--green-light); color: var(--green); }
+  .class-media { background: var(--amber-light); color: var(--amber); }
+  .class-baixa { background: var(--orange-light); color: var(--orange); }
+  .class-nao   { background: var(--red-light); color: var(--red-c); }
+
+  /* progress */
+  .progress-track {
+    background: var(--surface2);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+  }
+
+  .progress-fill {
+    height: 6px;
+    border-radius: 4px;
+    transition: width 0.5s ease, background 0.4s;
+    background: var(--accent);
+  }
+
+  .fill-alta  { background: var(--green); }
+  .fill-media { background: var(--amber); }
+  .fill-baixa { background: var(--orange); }
+  .fill-nao   { background: var(--red-c); }
+
+  /* mini grid */
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .mini-card {
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+
+  .mini-label {
+    font-size: 10px;
+    color: var(--ink3);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .mini-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* parecer */
+  .sep {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.25rem 0;
+  }
+
+  .parecer-section-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 8px;
+  }
+
+  .parecer-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+
+  .parecer-list li {
+    font-size: 13px;
+    color: var(--ink);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+
+  .ico { flex-shrink: 0; font-size: 13px; }
+
+  /* recomendação */
+  .rec-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .rec-btn {
+    padding: 7px 16px;
+    border: 1px solid var(--border2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink2);
+    background: var(--surface2);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+
+  .rec-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .rec-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* gerar btn */
+  .gerar-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 14px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.01em;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+
+  .gerar-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+  .gerar-btn:active { transform: translateY(0); }
+
+  /* empty */
+  .empty {
+    text-align: center;
+    padding: 2rem;
+    color: var(--ink3);
+    font-size: 13px;
+  }
+
+  /* modal parecer */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20,18,14,0.55);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 999;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    max-width: 680px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    transform: translateY(16px);
+    transition: transform 0.25s;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .modal-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+  }
+
+  .modal-header small {
+    font-size: 12px;
+    color: var(--ink3);
+    display: block;
+    margin-top: 2px;
+  }
+
+  .modal-close {
+    background: none;
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--ink2);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .parecer-bloco {
+    margin-bottom: 1.5rem;
+  }
+
+  .parecer-bloco h3 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .parecer-bloco p, .parecer-bloco li {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  .parecer-bloco ul {
+    padding-left: 1rem;
+  }
+
+  .parecer-bloco li { margin-bottom: 4px; }
+
+  .parecer-rec {
+    background: var(--accent-light);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .btn-secondary {
+    padding: 8px 18px;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius-sm);
+    background: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink2);
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    padding: 8px 18px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  @media (max-width: 600px) {
+    main { padding: 1.25rem 1rem 3rem; }
+    header { padding: 1rem 1.25rem; }
+    .nota-grande { font-size: 36px; }
+    .opcao { font-size: 11px; padding: 5px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">T</div>
+  <div class="logo-text">
+    <strong>Torres Consultoria</strong>
+    <small>Pessoas · Processos · Negócios</small>
+  </div>
+  <div class="header-right">
+    <div id="notaMacro">—</div>
+    <div id="badgeMacro">Aguardando avaliação</div>
+  </div>
+</header>
+
+<main>
+  <div class="page-intro">
+    <h1>Matriz de Aderência de Editais</h1>
+    <p>Avalie cada critério e gere o parecer técnico preliminar automaticamente.</p>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="nomeEdital">Nome do edital</label>
+    <input type="text" class="field-input" id="nomeEdital" placeholder="Ex: SEBRAE Inova Alimentos 2026">
+  </div>
+
+  <div id="criteriosContainer"></div>
+
+  <div id="resultadoWrap">
+    <div class="resultado-card">
+      <div class="empty">Selecione ao menos um critério para ver o resultado.</div>
+    </div>
+  </div>
+
+  <button class="gerar-btn" onclick="abrirParecer()">Gerar parecer técnico ↗</button>
+</main>
+
+<!-- Modal parecer -->
+<div class="modal-overlay" id="modalOverlay" onclick="fecharSeClickFora(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div>
+        <h2>Parecer Técnico Preliminar</h2>
+        <small id="modalSubtitle">Torres Consultoria · Responsável: Danton Torres</small>
+      </div>
+      <button class="modal-close" onclick="fecharModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="imprimirParecer()">Imprimir / Salvar PDF</button>
+      <button class="btn-primary" onclick="fecharModal()">Fechar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const criterios = [
+  {
+    id: "compat",
+    titulo: "Compatibilidade com o negócio",
+    peso: 0.30,
+    pesoLabel: "30%",
+    pergunta: "O objetivo do edital está alinhado ao negócio e à estratégia da empresa?",
+    opcoes: [
+      { label: "Totalmente alinhado", score: 5 },
+      { label: "Muito alinhado", score: 4 },
+      { label: "Parcialmente alinhado", score: 3 },
+      { label: "Pouco alinhado", score: 2 },
+      { label: "Não alinhado", score: 0 }
+    ],
+    verificar: ["Missão e estratégia da empresa", "Setor de atuação", "Público-alvo", "Produtos e processos envolvidos"]
+  },
+  {
+    id: "elig",
+    titulo: "Elegibilidade formal",
+    peso: 0.25,
+    pesoLabel: "25%",
+    pergunta: "A empresa atende aos requisitos obrigatórios do edital?",
+    opcoes: [
+      { label: "Atende 100%", score: 5 },
+      { label: "Falta ajuste simples", score: 4 },
+      { label: "Pequenas restrições", score: 3 },
+      { label: "Restrições relevantes", score: 1 },
+      { label: "Inelegível", score: 0 }
+    ],
+    verificar: ["CNAE", "Porte (ME / EPP)", "Tempo de CNPJ", "Faturamento", "Regularidade fiscal", "Localização"]
+  },
+  {
+    id: "pot",
+    titulo: "Potencial de aprovação",
+    peso: 0.20,
+    pesoLabel: "20%",
+    pergunta: "O projeto possui competitividade perante os critérios de mérito?",
+    opcoes: [
+      { label: "Muito forte", score: 5 },
+      { label: "Forte", score: 4 },
+      { label: "Médio", score: 3 },
+      { label: "Fraco", score: 2 },
+      { label: "Muito fraco", score: 1 }
+    ],
+    verificar: ["Grau de inovação", "Diferencial competitivo", "Maturidade da solução", "Equipe executora", "Mercado potencial"]
+  },
+  {
+    id: "esf",
+    titulo: "Relação esforço × benefício",
+    peso: 0.15,
+    pesoLabel: "15%",
+    pergunta: "Vale o esforço de elaboração dado o retorno esperado?",
+    opcoes: [
+      { label: "Excelente relação", score: 5 },
+      { label: "Boa relação", score: 4 },
+      { label: "Razoável", score: 3 },
+      { label: "Pouco atrativa", score: 2 },
+      { label: "Não compensa", score: 1 }
+    ],
+    verificar: ["Volume documental", "Complexidade do projeto", "Tempo disponível", "Burocracia envolvida"]
+  },
+  {
+    id: "fin",
+    titulo: "Viabilidade financeira",
+    peso: 0.10,
+    pesoLabel: "10%",
+    pergunta: "A empresa consegue executar financeiramente o projeto?",
+    opcoes: [
+      { label: "Totalmente viável", score: 5 },
+      { label: "Viável com pouco ajuste", score: 4 },
+      { label: "Viável com esforço", score: 3 },
+      { label: "Difícil execução", score: 2 },
+      { label: "Inviável", score: 1 }
+    ],
+    verificar: ["Contrapartida exigida", "Fluxo de caixa", "Necessidade de capital próprio", "Prazo de reembolso", "Exigência de garantias"]
+  }
+];
+
+const selecionados = {};
+let recomendacao = null;
+
+function renderCriterios() {
+  const c = document.getElementById("criteriosContainer");
+  c.innerHTML = criterios.map(cr => `
+    <div class="criterio ${selecionados[cr.id] !== undefined ? 'has-value' : ''}" id="card-${cr.id}">
+      <div class="criterio-head">
+        <div class="criterio-title">${cr.titulo}</div>
+        <div class="peso-badge">Peso ${cr.pesoLabel}</div>
+      </div>
+      <div class="criterio-question">${cr.pergunta}</div>
+      <div class="opcoes">
+        ${cr.opcoes.map(o => `
+          <button type="button" class="opcao ${selecionados[cr.id] === o.score ? 'selected' : ''}"
+            onclick="selecionar('${cr.id}', ${o.score})">
+            ${o.label}
+            <span class="score-dot">${o.score}</span>
+          </button>`).join("")}
+      </div>
+    </div>
+  `).join("");
+}
+
+function selecionar(id, score) {
+  selecionados[id] = score;
+  renderCriterios();
+  atualizarResultado();
+}
+
+function calcular() {
+  let total = 0, preenchidos = 0;
+  criterios.forEach(c => {
+    if (selecionados[c.id] !== undefined) {
+      total += selecionados[c.id] * c.peso;
+      preenchidos++;
+    }
+  });
+  return { nota: total, preenchidos };
+}
+
+function classificar(nota, preenchi) {
+  if (preenchi < criterios.length) return { label: "Incompleto", classe: "nao", fillClass: "fill-nao" };
+  if (nota >= 4.5) return { label: "Alta aderência", classe: "alta", fillClass: "fill-alta" };
+  if (nota >= 3.5) return { label: "Média aderência", classe: "media", fillClass: "fill-media" };
+  if (nota >= 2.5) return { label: "Baixa aderência", classe: "baixa", fillClass: "fill-baixa" };
+  return { label: "Não recomendado", classe: "nao", fillClass: "fill-nao" };
+}
+
+function atualizarResultado() {
+  const { nota, preenchidos } = calcular();
+  const box = document.getElementById("resultadoWrap");
+  const header_nota = document.getElementById("notaMacro");
+  const header_badge = document.getElementById("badgeMacro");
+
+  if (preenchidos === 0) {
+    box.innerHTML = `<div class="resultado-card"><div class="empty">Selecione ao menos um critério para ver o resultado.</div></div>`;
+    header_nota.textContent = "—";
+    header_badge.textContent = "Aguardando avaliação";
+    header_badge.style.background = "rgba(255,255,255,0.15)";
+    return;
+  }
+
+  const cf = classificar(nota, preenchidos);
+  const pct = Math.round((nota / 5) * 100);
+  const notaStr = nota.toFixed(2).replace(".", ",");
+
+  header_nota.textContent = nota.toFixed(2).replace(".", ",");
+  header_badge.textContent = cf.label;
+
+  const favoraveis = gerarFavoraveis();
+  const atencoes = gerarAtencoes();
+
+  const miniCards = criterios.map(c => {
+    const v = selecionados[c.id];
+    const contrib = v !== undefined ? (v * c.peso).toFixed(2) : "—";
+    return `<div class="mini-card">
+      <div class="mini-label">${c.titulo.split(" ")[0]}</div>
+      <div class="mini-val">${v !== undefined ? v + " pts" : "—"} <span style="font-size:10px;color:var(--ink3)">(${c.pesoLabel})</span></div>
+    </div>`;
+  }).join("");
+
+  box.innerHTML = `
+    <div class="resultado-card">
+      <div class="resultado-top">
+        <div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px">Nota final ponderada</div>
+          <div class="nota-grande">${notaStr}<span> / 5,00</span></div>
+        </div>
+        <div class="class-badge class-${cf.classe}">${cf.label}</div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill ${cf.fillClass}" style="width:${pct}%"></div>
+      </div>
+      <div class="mini-grid">${miniCards}</div>
+      <hr class="sep">
+      <div class="parecer-section-title">Pontos favoráveis</div>
+      <ul class="parecer-list">
+        ${favoraveis.map(f => `<li><span class="ico" style="color:var(--green)">✔</span>${f}</li>`).join("")}
+      </ul>
+      <div class="parecer-section-title">Pontos de atenção</div>
+      <ul class="parecer-list">
+        ${atencoes.map(a => `<li><span class="ico" style="color:var(--amber)">⚠</span>${a}</li>`).join("")}
+      </ul>
+      <hr class="sep">
+      <div class="parecer-section-title">Recomendação do consultor</div>
+      <div class="rec-group">
+        <button type="button" class="rec-btn ${recomendacao==='prosseguir'?'active':''}" onclick="setRec('prosseguir')">Prosseguir imediatamente</button>
+        <button type="button" class="rec-btn ${recomendacao==='ajustes'?'active':''}" onclick="setRec('ajustes')">Prosseguir com ajustes</button>
+        <button type="button" class="rec-btn ${recomendacao==='nao'?'active':''}" onclick="setRec('nao')">Não recomendar participação</button>
+      </div>
+    </div>`;
+}
+
+function setRec(v) {
+  recomendacao = v;
+  atualizarResultado();
+}
+
+function gerarFavoraveis() {
+  const items = [];
+  if (selecionados["compat"] >= 4) items.push("Forte alinhamento estratégico com o edital.");
+  if (selecionados["elig"] >= 4) items.push("Empresa elegível, sem restrições relevantes.");
+  if (selecionados["pot"] >= 4) items.push("Projeto com boa competitividade de mérito.");
+  if (selecionados["fin"] >= 4) items.push("Contrapartida financeira compatível com a capacidade da empresa.");
+  if (selecionados["esf"] >= 4) items.push("Boa relação entre esforço de elaboração e retorno esperado.");
+  if (items.length === 0) items.push("Nenhum critério atingiu pontuação elevada nesta avaliação.");
+  return items;
+}
+
+function gerarAtencoes() {
+  const items = [];
+  if (selecionados["compat"] !== undefined && selecionados["compat"] < 3) items.push("Alinhamento estratégico com o edital precisa ser revisado.");
+  if (selecionados["elig"] !== undefined && selecionados["elig"] < 4) items.push("Verificar pendências de elegibilidade: CNAE, regularidade fiscal ou porte.");
+  if (selecionados["pot"] !== undefined && selecionados["pot"] < 3) items.push("Potencial de aprovação abaixo do ideal — revisar proposta de inovação e diferencial.");
+  if (selecionados["fin"] !== undefined && selecionados["fin"] < 3) items.push("Avaliar capacidade financeira e contrapartida exigida antes de prosseguir.");
+  if (selecionados["esf"] !== undefined && selecionados["esf"] < 3) items.push("Relação esforço × benefício desfavorável — ponderar priorização.");
+  if (items.length === 0) items.push("Nenhum ponto de atenção crítico identificado.");
+  return items;
+}
+
+function abrirParecer() {
+  const { nota, preenchidos } = calcular();
+  if (preenchidos < criterios.length) {
+    alert("Preencha todos os 5 critérios antes de gerar o parecer.");
+    return;
+  }
+
+  const nome = document.getElementById("nomeEdital").value.trim() || "Edital não identificado";
+  const cf = classificar(nota, preenchidos);
+  const notaStr = nota.toFixed(2).replace(".", ",");
+  const data = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+  const recMap = {
+    prosseguir: "Prosseguir imediatamente",
+    ajustes: "Prosseguir com ajustes técnicos e documentais",
+    nao: "Não recomendar participação",
+    null: "A definir pelo consultor responsável"
+  };
+
+  const favoraveis = gerarFavoraveis();
+  const atencoes = gerarAtencoes();
+
+  const detalhes = criterios.map(c => {
+    const v = selecionados[c.id];
+    const opcaoLabel = c.opcoes.find(o => o.score === v)?.label || "—";
+    return `<li><strong>${c.titulo} (${c.pesoLabel}):</strong> ${opcaoLabel} — ${v} pts → contribuição: ${(v * c.peso).toFixed(2)}</li>`;
+  }).join("");
+
+  document.getElementById("modalSubtitle").textContent = `Torres Consultoria · Danton Torres · ${data}`;
+
+  document.getElementById("modalBody").innerHTML = `
+    <div class="parecer-bloco">
+      <h3>1. Identificação</h3>
+      <p><strong>Edital:</strong> ${nome}<br>
+      <strong>Data da análise:</strong> ${data}<br>
+      <strong>Consultor responsável:</strong> Danton Douglas Carneiro Torres — CRA 20-05571<br>
+      <strong>Empresa analisada:</strong> Monutri</p>
+    </div>
+
+    <div class="parecer-bloco">
+      <h3>2. Resumo executivo</h3>
+      <p>A análise conduzida por meio da Matriz de Aderência de Editais resultou em nota final de <strong>${notaStr} / 5,00</strong>, com classificação de <strong>${cf.label}</strong>. A avaliação contemplou os cinco critérios ponderados da metodologia Torres — compatibilidade com o negócio, elegibilidade formal, potencial de aprovação, relação esforço × benefício e viabilidade financeira.</p>
+    </div>
+
+    <div class="parecer-bloco">
+      <h3>3. Análise por critério</h3>
+      <ul style="padding-left:1rem">${detalhes}</ul>
+    </div>
+
+    <div class="parecer-bloco">
+      <h3>4. Pontos favoráveis</h3>
+      <ul>
+        ${favoraveis.map(f => `<li>${f}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="parecer-bloco">
+      <h3>5. Pontos de atenção</h3>
+      <ul>
+        ${atencoes.map(a => `<li>${a}</li>`).join("")}
+      </ul>
+    </div>
+
+    <div class="parecer-bloco">
+      <h3>6. Recomendação final</h3>
+      <div class="parecer-rec">☑ ${recMap[recomendacao]}</div>
+    </div>
+  `;
+
+  document.getElementById("modalOverlay").classList.add("open");
+}
+
+function fecharModal() {
+  document.getElementById("modalOverlay").classList.remove("open");
+}
+
+function fecharSeClickFora(e) {
+  if (e.target === document.getElementById("modalOverlay")) fecharModal();
+}
+
+function imprimirParecer() {
+  window.print();
+}
+
+renderCriterios();
+</script>
+</body>
+</html>
